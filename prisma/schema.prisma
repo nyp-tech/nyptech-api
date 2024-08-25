@@ -37,11 +37,11 @@ model event {
 }
 
 model Events {
-  id String @id @default(uuid())
-  title String
-  description String
-  organizer String
-  url String
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  organizer    String
+  url          String
   publicityUrl String
-  date DateTime
+  date         DateTime
 }

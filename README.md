@@ -1,6 +1,6 @@
 # NYP Technopreneurship Club
 
-This repository contains the main website for the club.
+This repository contains the API endpoints used by the club.
 
 ## Contributing
 
@@ -11,7 +11,7 @@ This repository contains the main website for the club.
 
 ### Installation
 
-1. Clone this repository: `git clone https://github.com/nyp-tech/nyptech.git`
+1. Clone this repository: `git clone https://github.com/nyp-tech/nyptech-api.git`
 2. Copy the file `.env.template` as `.env`, and input the required secrets.
 3. Install dependencies: `pnpm install`
 4. Run the server: `pnpm run dev`
