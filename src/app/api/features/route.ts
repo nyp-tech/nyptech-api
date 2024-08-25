@@ -1,6 +1,12 @@
 import { createFeature, getFeature, getFeatures } from "@/lib/database";
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/features:
+ *   post:
+ *     description: Create a new feature
+ */
 export async function POST(req: NextRequest) {
   try {
     const featureData = await req.json();
@@ -11,6 +17,12 @@ export async function POST(req: NextRequest) {
   }
 }
 
+/**
+ * @swagger
+ * /api/features:
+ *   get:
+ *     description: Get all features or a specific feature by ID
+ */
 export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id");

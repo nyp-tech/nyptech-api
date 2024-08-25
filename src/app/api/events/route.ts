@@ -1,6 +1,12 @@
 import { createEvent, deleteEvent, getEvent, getEvents } from "@/lib/database";
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/events:
+ *   post:
+ *     description: Create a new event
+ */
 export async function POST(req: NextRequest) {
   try {
     const eventData = await req.json();
@@ -12,6 +18,12 @@ export async function POST(req: NextRequest) {
   }
 }
 
+/**
+ * @swagger
+ * /api/events:
+ *   get:
+ *     description: Get all events or a specific event by ID
+ */
 export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id");
@@ -31,6 +43,12 @@ export async function GET(req: NextRequest) {
   }
 }
 
+/**
+ * @swagger
+ * /api/events:
+ *   delete:
+ *     description: Delete an event by ID
+ */
 export async function DELETE(req: NextRequest) {
   try {
     const { id } = await req.json();
