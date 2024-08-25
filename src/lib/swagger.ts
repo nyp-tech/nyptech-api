@@ -2,7 +2,7 @@ import { createSwaggerSpec } from "next-swagger-doc";
 
 export function getSwaggerSpec() {
   return createSwaggerSpec({
-    apiFolder: "src/app/api",
+    apiFolder: "src/app/v1",
     definition: {
       openapi: "3.0.0",
       info: {

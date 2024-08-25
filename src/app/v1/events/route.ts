@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 /**
  * @swagger
- * /api/events:
+ * /v1/events:
  *   post:
  *     description: Create a new event
  */
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 
 /**
  * @swagger
- * /api/events:
+ * /v1/events:
  *   get:
  *     description: Get all events or a specific event by ID
  */
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
 
 /**
  * @swagger
- * /api/events:
+ * /v1/events:
  *   delete:
  *     description: Delete an event by ID
  */

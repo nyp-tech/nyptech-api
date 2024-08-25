@@ -36,41 +36,6 @@ export async function deleteEvent(id: string) {
   });
 }
 
-export async function createNextEvent(event: Prisma.EventsCreateInput) {
-  return await prisma.events.create({
-    data: event,
-  });
-}
-
-export async function getNextEvent(id: string) {
-  return await prisma.events.findUnique({
-    where: {
-      id,
-    },
-  });
-}
-
-export async function getNextEvents() {
-  return await prisma.events.findMany();
-}
-
-export async function updateNextEvent(id: string, event: Prisma.EventsUpdateInput) {
-  return await prisma.events.update({
-    where: {
-      id,
-    },
-    data: event,
-  });
-}
-
-export async function deleteNextEvent(id: string) {
-  return await prisma.events.delete({
-    where: {
-      id,
-    },
-  });
-}
-
 export async function getFeature(id: string) {
   return await prisma.feature.findUnique({
     where: {

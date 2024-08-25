@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 /**
  * @swagger
- * /api/features:
+ * /v1/features:
  *   post:
  *     description: Create a new feature
  */
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
 /**
  * @swagger
- * /api/features:
+ * /v1/features:
  *   get:
  *     description: Get all features or a specific feature by ID
  */
