@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Feature {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  Vote        Vote[]
+}
+
+model Vote {
+  id        String  @id @default(uuid())
+  userId    String
+  featureId String
+  Feature   Feature @relation(fields: [featureId], references: [id])
+
+  @@unique([userId, featureId])
+  @@index([featureId])
+}
+
+model event {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  signup      String
+  location    String
+  club        String
+  img         String
+  date        DateTime
+  userId      String
+}
+
+model Events {
+  id String @id @default(uuid())
+  title String
+  description String
+  organizer String
+  url String
+  publicityUrl String
+  date DateTime
+}
