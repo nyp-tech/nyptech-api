@@ -1,8 +1,5 @@
-import { UPSTASH_REDIS_REST_TOKEN, UPSTASH_REDIS_REST_URL } from "@/environment";
-import { Prisma, PrismaClient } from "@prisma/client";
-import { Redis } from "@upstash/redis";
-
-const prisma = new PrismaClient();
+import { prisma, Redirect, RedirectRecord, redis } from "@/lib/backend";
+import { Prisma } from "@prisma/client";
 
 export async function createEvent(event: Prisma.eventCreateInput) {
   return await prisma.event.create({
@@ -108,20 +105,6 @@ export async function deleteFeature(id: string) {
     },
   });
 }
-
-const redis = new Redis({
-  url: UPSTASH_REDIS_REST_URL,
-  token: UPSTASH_REDIS_REST_TOKEN,
-});
-
-export type Redirect = RedirectRecord & {
-  id: string;
-};
-
-export type RedirectRecord = {
-  url: string;
-  description: string;
-};
 
 export async function setLink(id: string, record: RedirectRecord) {
   try {

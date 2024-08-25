@@ -1,5 +1,6 @@
 import { ADMIN_KEY } from "@/environment";
-import { deleteLink, getLink, Redirect, setLink } from "@/lib/database";
+import { Redirect } from "@/lib/backend";
+import { deleteLink, getLink, setLink } from "@/lib/database";
 import { RouteProps } from "@/types";
 import { NextResponse, type NextRequest } from "next/server";
 
