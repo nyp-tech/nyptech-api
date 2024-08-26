@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "NYP Technopreneurship Club",
 };
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default function Layout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={font.className}>{props.children}</body>

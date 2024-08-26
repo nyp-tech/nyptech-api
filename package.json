@@ -17,7 +17,8 @@
     "next-swagger-doc": "^0.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "swagger-ui-react": "^5.17.14"
+    "swagger-ui-react": "^5.17.14",
+    "uploadthing": "^6.13.2"
   },
   "devDependencies": {
     "@types/node": "^20.16.1",
