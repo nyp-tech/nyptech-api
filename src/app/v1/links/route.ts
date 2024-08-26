@@ -1,7 +1,6 @@
 import { ADMIN_KEY } from "@/environment";
 import { Redirect, RedirectRecord } from "@/lib/backend";
 import { deleteLink, getLink, getLinks, setLink } from "@/lib/database";
-import { RouteProps } from "@/types";
 import { NextResponse, type NextRequest } from "next/server";
 
 function validateHeaders(req: NextRequest) {
@@ -21,11 +20,11 @@ export async function POST(req: NextRequest) {
   return NextResponse.json(link, { status: 200 });
 }
 
-export async function GET(req: NextRequest, props: RouteProps) {
+export async function GET(req: NextRequest) {
   const authRes = validateHeaders(req);
   if (authRes) return authRes;
 
-  const id = props.params.id;
+  const id = req.nextUrl.searchParams.get("id");
 
   if (id) {
     const link = await getLink(id);
@@ -37,11 +36,14 @@ export async function GET(req: NextRequest, props: RouteProps) {
   }
 }
 
-export async function DELETE(req: NextRequest, props: RouteProps) {
+export async function DELETE(req: NextRequest) {
   const authRes = validateHeaders(req);
   if (authRes) return authRes;
 
-  const success = await deleteLink(props.params.id);
+  const id = req.nextUrl.searchParams.get("id");
+  if (!id) return NextResponse.json({ message: "ID is required." }, { status: 400 });
+
+  const success = await deleteLink(id);
   if (!success) return NextResponse.json({ message: "Not found." }, { status: 404 });
   return NextResponse.json({ message: "Redirect was deleted." }, { status: 200 });
 }

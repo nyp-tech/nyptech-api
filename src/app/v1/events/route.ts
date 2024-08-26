@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(event, { status: 201 });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ message: "An unknown error had occurred!" }, { status: 500 });
+    return NextResponse.json({ message: "An unknown error had occurred." }, { status: 500 });
   }
 }
 
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
           id,
         },
       });
-      if (!event) return NextResponse.json({ message: "Event not found!" }, { status: 404 });
+      if (!event) return NextResponse.json({ message: "Event not found." }, { status: 404 });
       return NextResponse.json(event, { status: 200 });
     } else {
       const events = await prisma.events.findMany();
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     }
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ message: "An unknown error had occurred!" }, { status: 500 });
+    return NextResponse.json({ message: "An unknown error had occurred." }, { status: 500 });
   }
 }
 
@@ -47,22 +47,23 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(event, { status: 200 });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ message: "An unknown error had occurred!" }, { status: 500 });
+    return NextResponse.json({ message: "An unknown error had occurred." }, { status: 500 });
   }
 }
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { id } = await req.json();
+    const id = req.nextUrl.searchParams.get("id");
+    if (!id) return NextResponse.json({ message: "ID is required." }, { status: 400 });
     const event = await prisma.events.delete({
       where: {
         id,
       },
     });
-    if (!event) return NextResponse.json({ message: "Event not found!" }, { status: 404 });
-    return NextResponse.json({ message: "Event deleted!" }, { status: 200 });
+    if (!event) return NextResponse.json({ message: "Event not found." }, { status: 404 });
+    return NextResponse.json({ message: "Event deleted." }, { status: 200 });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ message: "An unknown error had occurred!" }, { status: 500 });
+    return NextResponse.json({ message: "An unknown error had occurred." }, { status: 500 });
   }
 }
