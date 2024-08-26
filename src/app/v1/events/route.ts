@@ -1,61 +1,68 @@
-import { createEvent, deleteEvent, getEvent, getEvents } from "@/lib/database";
+import { prisma } from "@/lib/backend";
 import { NextRequest, NextResponse } from "next/server";
 
-/**
- * @swagger
- * /v1/events:
- *   post:
- *     description: Create a new event
- */
 export async function POST(req: NextRequest) {
   try {
     const eventData = await req.json();
-    const event = await createEvent(eventData);
+    const event = await prisma.events.create({
+      data: eventData,
+    });
     return NextResponse.json(event, { status: 201 });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ error: "An unknown error had occurred!" }, { status: 500 });
+    return NextResponse.json({ message: "An unknown error had occurred!" }, { status: 500 });
   }
 }
 
-/**
- * @swagger
- * /v1/events:
- *   get:
- *     description: Get all events or a specific event by ID
- */
 export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id");
     if (id) {
-      const event = await getEvent(id);
-      if (!event) {
-        return NextResponse.json({ error: "Event not found!" }, { status: 404 });
-      } else {
-        return NextResponse.json(event, { status: 200 });
-      }
+      const event = await prisma.events.findUnique({
+        where: {
+          id,
+        },
+      });
+      if (!event) return NextResponse.json({ message: "Event not found!" }, { status: 404 });
+      return NextResponse.json(event, { status: 200 });
+    } else {
+      const events = await prisma.events.findMany();
+      return NextResponse.json(events, { status: 200 });
     }
-    const events = await getEvents();
-    return NextResponse.json(events, { status: 200 });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ error: "An unknown error had occurred!" }, { status: 500 });
+    return NextResponse.json({ message: "An unknown error had occurred!" }, { status: 500 });
   }
 }
 
-/**
- * @swagger
- * /v1/events:
- *   delete:
- *     description: Delete an event by ID
- */
+export async function PUT(req: NextRequest) {
+  try {
+    const { id, ...eventData } = await req.json();
+    const event = await prisma.events.update({
+      where: {
+        id,
+      },
+      data: eventData,
+    });
+    return NextResponse.json(event, { status: 200 });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ message: "An unknown error had occurred!" }, { status: 500 });
+  }
+}
+
 export async function DELETE(req: NextRequest) {
   try {
     const { id } = await req.json();
-    await deleteEvent(id);
+    const event = await prisma.events.delete({
+      where: {
+        id,
+      },
+    });
+    if (!event) return NextResponse.json({ message: "Event not found!" }, { status: 404 });
     return NextResponse.json({ message: "Event deleted!" }, { status: 200 });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ error: "An unknown error had occurred!" }, { status: 500 });
+    return NextResponse.json({ message: "An unknown error had occurred!" }, { status: 500 });
   }
 }

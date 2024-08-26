@@ -7,11 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Events {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  organizer    String
+  url          String
+  publicityUrl String
+  date         DateTime
+}
+
 model Feature {
   id          String @id @default(uuid())
   title       String
   description String
-  Vote        Vote[]
+  votes       Vote[]
 }
 
 model Vote {
@@ -22,26 +32,4 @@ model Vote {
 
   @@unique([userId, featureId])
   @@index([featureId])
-}
-
-model event {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  signup      String
-  location    String
-  club        String
-  img         String
-  date        DateTime
-  userId      String
-}
-
-model Events {
-  id           String   @id @default(uuid())
-  title        String
-  description  String
-  organizer    String
-  url          String
-  publicityUrl String
-  date         DateTime
 }

@@ -1,35 +1,23 @@
 import { createFeature, getFeature, getFeatures } from "@/lib/database";
 import { NextRequest, NextResponse } from "next/server";
 
-/**
- * @swagger
- * /v1/features:
- *   post:
- *     description: Create a new feature
- */
 export async function POST(req: NextRequest) {
   try {
     const featureData = await req.json();
     const feature = await createFeature(featureData);
     return NextResponse.json(feature, { status: 201 });
   } catch {
-    return NextResponse.json({ error: "An unknown error had occurred!" }, { status: 500 });
+    return NextResponse.json({ message: "An unknown error had occurred!" }, { status: 500 });
   }
 }
 
-/**
- * @swagger
- * /v1/features:
- *   get:
- *     description: Get all features or a specific feature by ID
- */
 export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id");
     if (id) {
       const event = await getFeature(id);
       if (!event) {
-        return NextResponse.json({ error: "Event not found!" }, { status: 404 });
+        return NextResponse.json({ message: "Event not found!" }, { status: 404 });
       } else {
         return NextResponse.json(event, { status: 200 });
       }
@@ -37,6 +25,6 @@ export async function GET(req: NextRequest) {
     const features = await getFeatures();
     return NextResponse.json(features, { status: 200 });
   } catch {
-    return NextResponse.json({ error: "An unknown error had occurred!" }, { status: 500 });
+    return NextResponse.json({ message: "An unknown error had occurred!" }, { status: 500 });
   }
 }

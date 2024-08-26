@@ -10,6 +10,8 @@ export const { GET, POST } = createRouteHandler({
         maxFileSize: "4MB",
         maxFileCount: 5,
       },
+    }).onUploadError((err) => {
+      console.error("Upload error!", err);
     }).onUploadComplete((data) => {
       console.log("Upload completed!", data);
     }),
