@@ -1,8 +1,9 @@
-import { Redirect, RedirectRecord, redis } from "@/lib/backend";
+import { redis } from "@/lib/clients";
+import { Link, LinkRecord, LinkStatsRecord } from "@/lib/types";
 
-export async function setLink(id: string, record: RedirectRecord) {
+export async function setLink(id: string, record: LinkRecord) {
   try {
-    await redis.set<RedirectRecord>(`go:${id}`, record);
+    await redis.set<LinkRecord>(`go:${id}`, record);
     return getLink(id);
   } catch (error) {
     return undefined;
@@ -11,14 +12,26 @@ export async function setLink(id: string, record: RedirectRecord) {
 
 export async function getLink(id: string) {
   try {
-    const redirect = await redis.get<RedirectRecord>(`go:${id}`);
+    const redirect = await redis.get<LinkRecord>(`go:${id}`);
     if (!redirect) {
       return undefined;
     }
     return {
       id,
       ...redirect,
-    } as Redirect;
+    } as Link;
+  } catch (error) {
+    return undefined;
+  }
+}
+
+export async function getLinkStats(id: string) {
+  try {
+    const clicks = await redis.get<number>(`go-stats:${id}:clicks`);
+    return {
+      id,
+      clicks: clicks || 0,
+    } as LinkStatsRecord;
   } catch (error) {
     return undefined;
   }
@@ -27,11 +40,11 @@ export async function getLink(id: string) {
 export async function getLinks() {
   try {
     const keys = await redis.keys("go:*");
-    const redirects = await redis.mget<RedirectRecord[]>(keys);
+    const redirects = await redis.mget<LinkRecord[]>(keys);
     const records = redirects.map((redirect, index) => ({
       id: keys[index].replace("go:", ""),
       ...redirect,
-    })) as Redirect[];
+    })) as Link[];
     return records;
   } catch (error) {
     return [];

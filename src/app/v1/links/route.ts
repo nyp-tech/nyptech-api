@@ -1,12 +1,12 @@
-import { Redirect, RedirectRecord } from "@/lib/backend";
-import { deleteLink, getLink, getLinks, setLink } from "@/lib/database";
+import { deleteLink, getLink, getLinks, setLink } from "@/lib/links";
+import { Link, LinkRecord } from "@/lib/types";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const record = (await req.json()) as Redirect;
+  const record = (await req.json()) as Link;
   if (!("id" in record && "url" in record)) return NextResponse.json({ message: "Body is invalid." }, { status: 400 });
 
-  const link = await setLink(record.id, record as RedirectRecord);
+  const link = await setLink(record.id, record as LinkRecord);
   return NextResponse.json(link, { status: 200 });
 }
 
