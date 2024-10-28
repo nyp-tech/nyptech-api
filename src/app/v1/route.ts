@@ -1,7 +1,5 @@
-import { ApiReference } from "@scalar/nextjs-api-reference";
+import { redirect } from "next/navigation";
 
-export const GET = ApiReference({
-  spec: {
-    content: "https://cdn.jsdelivr.net/npm/@scalar/galaxy/dist/latest.yaml",
-  },
-});
+export async function GET() {
+  redirect("/v1/reference");
+}
